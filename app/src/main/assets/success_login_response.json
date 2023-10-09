@@ -1,0 +1,9 @@
+{
+  "error": false,
+  "message": "success",
+  "loginResult": {
+    "userId": "user-JuGGA3HEHVHwWOJU",
+    "name": "tes",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyLUp1R0dBM0hFSFZId1dPSlUiLCJpYXQiOjE2OTU5MDE4ODh9.l9EtUyHdSxvopGfK5r-EW_ro9eBsE6xLVJJ7EtKWua4"
+  }
+}

@@ -6,15 +6,16 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 
-class AlertFragment(val msg:String) : DialogFragment() {
+class AlertFragment(private val title:String,private val msg: String) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(msg)
-                .setPositiveButton("OK",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        dialog.dismiss()
-                    })
+                .setTitle(title)
+                .setPositiveButton("OK"
+                ) { dialog, _ ->
+                    dialog.dismiss()
+                }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

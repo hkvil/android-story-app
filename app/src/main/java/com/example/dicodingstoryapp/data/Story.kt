@@ -8,4 +8,4 @@ data class Story(
     val title: String,
     val desc: String,
     val imageUrl: String
-):Parcelable
+) : Parcelable

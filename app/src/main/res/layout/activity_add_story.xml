@@ -38,6 +38,15 @@
         app:layout_constraintStart_toEndOf="@id/bt_camera"
         app:layout_constraintTop_toBottomOf="@id/iv_photo" />
 
+    <CheckBox
+        android:id="@+id/bt_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/textInputLayout_desc"
+        android:layout_width="wrap_content"
+        android:text="Location"
+        android:layout_height="wrap_content"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout_desc"
         android:layout_width="match_parent"

@@ -1,11 +1,11 @@
 package com.example.dicodingstoryapp.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.dicodingstoryapp.data.database.UserPreference
@@ -31,10 +31,13 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        finishAffinity();
-        finish();
+        finishAffinity()
+        finish()
     }
 
+    private fun showAlertDialog(title:String, msg:String){
+        AlertFragment(title,msg).show(supportFragmentManager, "LOGIN")
+    }
     private fun setViewModel() {
 
         val pref = UserPreference.getInstance(application.dataStore)
@@ -45,15 +48,15 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel.responseBody.observe(this) {
             Log.d("OBSERVE", "INSIDE OBSERVE")
-            if(it==null){
+            if (it == null) {
                 showProgressBar(false)
-                AlertFragment("ERROR").show(supportFragmentManager, "LOGIN")
+                showAlertDialog("NULL","Response is null")
             }
             if (it != null) {
                 showProgressBar(false)
                 val token = it.loginResult?.token
                 userViewModel.saveUserToken(token.toString())
-                val intent = Intent(this,HomeActivity::class.java)
+                val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
             }
 
@@ -72,10 +75,10 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun showProgressBar(activated:Boolean){
-        if(activated){
+    private fun showProgressBar(activated: Boolean) {
+        if (activated) {
             binding.progressBar.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.progressBar.visibility = View.GONE
         }
     }

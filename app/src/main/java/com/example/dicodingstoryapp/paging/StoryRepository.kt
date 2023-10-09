@@ -7,10 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.example.dicodingstoryapp.data.paging.StoryPagingSource
 import com.example.dicodingstoryapp.data.response.ListStoryItem
-import com.example.dicodingstoryapp.data.response.ListStoryResponse
 import com.example.dicodingstoryapp.data.retrofit.ApiConfig
-import com.example.dicodingstoryapp.data.retrofit.ApiService
-import kotlinx.coroutines.flow.Flow
 
 class StoryRepository(private val token: String) {
 

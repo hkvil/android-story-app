@@ -3,7 +3,6 @@ package com.example.dicodingstoryapp.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.dicodingstoryapp.data.response.ListStoryItem
-import com.example.dicodingstoryapp.data.response.ListStoryResponse
 import com.example.dicodingstoryapp.data.retrofit.ApiService
 
 class StoryPagingSource(private val apiService: ApiService, private val token: String) :
@@ -19,8 +18,8 @@ class StoryPagingSource(private val apiService: ApiService, private val token: S
         return try {
             val response = apiService.getStories("Bearer $token", position)
             val dataList = response.body()?.listStory!!
-            val nextKey = if(dataList.isNullOrEmpty()) null else position+1
-            val prevKey = if(position== INITIAL_PAGE_INDEX) null else position-1
+            val nextKey = if (dataList.isNullOrEmpty()) null else position + 1
+            val prevKey = if (position == INITIAL_PAGE_INDEX) null else position - 1
             LoadResult.Page(
                 data = dataList,
                 nextKey = nextKey,

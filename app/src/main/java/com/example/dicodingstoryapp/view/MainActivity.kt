@@ -1,9 +1,8 @@
 package com.example.dicodingstoryapp.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.dicodingstoryapp.data.database.UserPreference
 import com.example.dicodingstoryapp.data.database.dataStore
@@ -28,9 +27,9 @@ class MainActivity : AppCompatActivity() {
             this,
             PreferencesViewModelFactory(pref)
         )[PreferencesViewModel::class.java]
-        userViewModel.getUserToken().observe(this){
-            if ((it != null) && (it != "NULL")){
-                val intent = Intent(this@MainActivity,HomeActivity::class.java)
+        userViewModel.getUserToken().observe(this) {
+            if ((it != null) && (it != "NULL")) {
+                val intent = Intent(this@MainActivity, HomeActivity::class.java)
                 startActivity(intent)
             }
         }

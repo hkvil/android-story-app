@@ -3,13 +3,15 @@ package com.example.dicodingstoryapp.view
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,11 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dicodingstoryapp.R
 import com.example.dicodingstoryapp.data.database.UserPreference
 import com.example.dicodingstoryapp.data.database.dataStore
-import com.example.dicodingstoryapp.paging.StoryListAdapter2
 import com.example.dicodingstoryapp.data.viewmodel.HomeViewModel
 import com.example.dicodingstoryapp.data.viewmodel.PreferencesViewModel
 import com.example.dicodingstoryapp.data.viewmodel.PreferencesViewModelFactory
 import com.example.dicodingstoryapp.databinding.ActivityHomeBinding
+import com.example.dicodingstoryapp.maps.StoryMapsActivity
+import com.example.dicodingstoryapp.paging.LoadingStateAdapter
+import com.example.dicodingstoryapp.paging.StoryListAdapterPaging
 import com.example.dicodingstoryapp.paging.StoryRepository
 import kotlinx.coroutines.launch
 
@@ -36,19 +40,17 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.title = "Stories"
         setViewModel()
-
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
-        finishAffinity();
-        finish();
+        finishAffinity()
+        finish()
     }
 
     private fun setViewModel() {
         val pref = UserPreference.getInstance(application.dataStore)
-
-
 
         userViewModel = ViewModelProvider(
             this,
@@ -56,10 +58,8 @@ class HomeActivity : AppCompatActivity() {
         )[PreferencesViewModel::class.java]
 
         userViewModel.getUserToken().observe(this) {
-          //  showProgressBar(true)
             lifecycleScope.launch {
                 Log.d("T", it.toString())
-//                homeViewModel.getStories(it) BEFORE PAGING
                 token = it
                 showRecyclerView()
             }
@@ -72,17 +72,16 @@ class HomeActivity : AppCompatActivity() {
         homeViewModel = ViewModelProvider(
             this, HomeViewModel.HomeViewModelFactory(StoryRepository(token.toString()))
         )[HomeViewModel::class.java]
-//        binding.rvStories.layoutManager = LinearLayoutManager(this)
-//        binding.rvStories.adapter = StoryListAdapter(list)  BEFORE PAGING
-        val adapter = StoryListAdapter2()
+        val adapter = StoryListAdapterPaging()
         binding.rvStories.layoutManager = LinearLayoutManager(this)
-        binding.rvStories.adapter = adapter
+        binding.rvStories.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
         homeViewModel.story.observe(this) {
             adapter.submitData(lifecycle, it)
         }
-
-
-
     }
 
     private fun logout() {
@@ -101,10 +100,21 @@ class HomeActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.add_story -> {
                 val intent = Intent(this, AddStoryActivity::class.java)
-                if (checkMediaPermission()) {
+                if (Build.VERSION.SDK_INT <= VERSION_CODES.P) {
+                    if (checkMediaPermission()) startActivity(intent)
+                } else {
                     startActivity(intent)
                 }
                 Toast.makeText(this, "ADD STORY", Toast.LENGTH_LONG).show()
+                true
+            }
+
+            R.id.story_maps -> {
+                if (!token.isNullOrEmpty()) {
+                    val intent = Intent(this, StoryMapsActivity::class.java)
+                    intent.putExtra("data", token.toString())
+                    startActivity(intent)
+                }
                 true
             }
 
@@ -113,6 +123,7 @@ class HomeActivity : AppCompatActivity() {
                 Toast.makeText(this, "LOGOUT", Toast.LENGTH_LONG).show()
                 true
             }
+
 
             else -> super.onOptionsItemSelected(item)
         }

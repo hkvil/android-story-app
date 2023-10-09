@@ -1,11 +1,13 @@
 package com.example.dicodingstoryapp.data.helper
 
 import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
@@ -14,13 +16,10 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
+import java.util.Date
 import java.util.Locale
 
-import java.util.Date
-import android.content.ContentValues
-import android.os.Build
-
-val FILENAME_FORMAT = "yyyyMMdd_HHmmss";
+val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
 val timeStamp: String = SimpleDateFormat(
     FILENAME_FORMAT,
     Locale.US

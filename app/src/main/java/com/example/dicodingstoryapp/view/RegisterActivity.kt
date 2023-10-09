@@ -1,10 +1,10 @@
 package com.example.dicodingstoryapp.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.dicodingstoryapp.data.viewmodel.PreferencesViewModel
 import com.example.dicodingstoryapp.data.viewmodel.RegisterViewModel
@@ -29,10 +29,10 @@ class RegisterActivity : AppCompatActivity() {
             Log.d("OBSERVE", "INSIDE OBSERVE")
             if (it != null) {
                 showProgressBar(false)
-                AlertFragment(it.message.toString()).show(supportFragmentManager, "REGISTER")
-            }else{
+                AlertFragment("Bukan","Bukan").show(supportFragmentManager, "REGISTER")
+            } else {
                 showProgressBar(false)
-                AlertFragment("ERROR").show(supportFragmentManager, "REGISTER")
+                AlertFragment("ERROR","Error").show(supportFragmentManager, "REGISTER")
             }
         }
     }

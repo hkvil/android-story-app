@@ -12,12 +12,13 @@ class PreferencesViewModel(private val pref: UserPreference) : ViewModel() {
         return pref.getUserToken().asLiveData()
     }
 
-    fun saveUserToken(token:String){
+    fun saveUserToken(token: String) {
         viewModelScope.launch {
             pref.saveUserToken(token)
         }
     }
-    fun deleteUserToken(){
+
+    fun deleteUserToken() {
         viewModelScope.launch {
             pref.deleteToken()
         }
